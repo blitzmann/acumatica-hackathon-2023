@@ -30,12 +30,30 @@ https://{{baseUrl}}/CustomizationApi/Import
 ```
 
 ### Check Project Validation
+Set the isOnlyValidation flag to true to check if the customization is valid
+
 https://{{baseUrl}}/CustomizationApi/publishBegin
 
 ```json
 {
     "isMergeWithExistingPackages": false,
     "isOnlyValidation": true,
+    "isOnlyDbUpdates": false,
+    "isReplayPreviouslyExecutedScripts": false,
+    "projectNames": [ "ThetaHackathon" ],
+    "tenantMode": "Current"
+}
+```
+
+### Publish Customization
+Set the isOnlyValidation flag to false to publish the customization to production
+
+https://{{baseUrl}}/CustomizationApi/publishBegin
+
+```json
+{
+    "isMergeWithExistingPackages": false,
+    "isOnlyValidation": false,
     "isOnlyDbUpdates": false,
     "isReplayPreviouslyExecutedScripts": false,
     "projectNames": [ "ThetaHackathon" ],
