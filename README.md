@@ -9,10 +9,10 @@ https://{{baseUrl}}/entity/auth/login
 
 ```json
 {
-"name" : "githubservice",
-"password" : "Theta",
-"company" : "Company",
-"branch" : ""
+    "name": "{{name}}",
+    "password": "{{password}}",
+    "company": "{{company}}",
+    "branch": "{{branch}}"
 }
 ```
 
