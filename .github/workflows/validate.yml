@@ -66,7 +66,6 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: hackathon.acumatica.theta
-        path: hackathon.acumatica.theta.zip
 
     - name: Login
       run: |
@@ -76,8 +75,6 @@ jobs:
         ls | echo
         loginJson='{"name":"githubaction","password":"Theta","company":"Company","branch":""}'
         curl -X POST https://hackathon.acumatica.com/Theta/entity/auth/login -H "Content-Type: application/JSON" -d $loginJson -i --cookie-jar ./cookies.txt
-    - name: Setup upterm session
-      uses: lhotari/action-upterm@v1
     - name: Zips an Uploads
       run: |
         #sends file
