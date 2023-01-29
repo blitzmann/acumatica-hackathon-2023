@@ -69,8 +69,8 @@ jobs:
 
     - name: Login
       run: |
-        du .
-        du /home/runner/work/acumatica-hackathon-2023/
+        du -al .
+        du -al /home/runner/work/acumatica-hackathon-2023/
         chmod +x ./.github/scripts/validate.sh
         ls | echo
         loginJson='{"name":"githubaction","password":"Theta","company":"Company","branch":""}'
