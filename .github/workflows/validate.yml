@@ -55,7 +55,8 @@ jobs:
 
     - name: Download Artifact
       uses: actions/download-artifact@v3
-        - name: hackathon.acumatica.theta
+      with:
+        name: hackathon.acumatica.theta
 
     - name: Login
       run: |
