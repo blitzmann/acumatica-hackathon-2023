@@ -1,5 +1,8 @@
 name: TestEncode
 
+env:
+  ProjectName : test
+
 on:
   push:
     branches: ["main"]
@@ -26,3 +29,25 @@ jobs:
         base64=$(base64 Theta.zip) 
         projectJson='{"projectLevel":1,"isReplaceIfExists":true,"projectName":"test","projectDescription":"Customization Project for Team Theta","projectContentBase64":"'"$base64"'"}'
         curl --location --request POST 'https://hackathon.acumatica.com/Theta/CustomizationApi/Import' --header 'Content-Type: application/json' -d "$projectJson" -i -b cookies.txt
+    - name: Validate Project
+      run: |
+        validateProject='{"isMergeWithExistingPackages": false,"isOnlyValidation": true,"isOnlyDbUpdates": false,"isReplayPreviouslyExecutedScripts": false,"projectNames": [ "test" ],"tenantMode": "Current"}'
+        publishProject='{"isMergeWithExistingPackages": false,"isOnlyValidation": false,"isOnlyDbUpdates": false,"isReplayPreviouslyExecutedScripts": false,"projectNames": [ "test" ],"tenantMode": "Current"}'
+        curl --location --request POST 'https://hackathon.acumatica.com/Theta/CustomizationApi/publishBegin' --header 'Content-Type: application/json' -d "$validateProject" -i -b cookies.txt
+
+        curl --location --request POST 'https://hackathon.acumatica.com/Theta/CustomizationApi/publishEnd' --header 'Content-Type: application/json' -d "" -i -b cookies.txt -o response.txt
+
+        
+        for i in {1..5}; do
+          if [ `cat response.txt` == *"isCompleted\":true,\"isFailed\":false"* ]; then
+          curl --location --request POST 'https://hackathon.acumatica.com/Theta/CustomizationApi/publishBegin' --header 'Content-Type: application/json' -d "$publishProject" -i -b cookies.txt
+          else
+              sleep 120
+              break
+            fi
+          done
+
+
+        grep -o '"isCompleted":[^,]*' response.txt | awk '{print $2}' | tr -d '"'
+
+        grep -o '"isFailed":[^,]*' response.txt | awk '{print $2}' | tr -d '"'
