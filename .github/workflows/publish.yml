@@ -1,4 +1,4 @@
-name: TestEncode
+name: Publish to prod
 
 env:
   ProjectName : test
