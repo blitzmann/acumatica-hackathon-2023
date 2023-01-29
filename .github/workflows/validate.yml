@@ -30,7 +30,7 @@ jobs:
         run: msbuild.exe hackathon.acumatica.theta.sln /nologo /nr:false /p:Configuration=Release /target:Rebuild
 
       - name: Move dll
-        run: Copy-Item "hackathon.acumatica.theta/bin/Release/netstandard2.0/hackathon.acumatica.theta.*" -Destination "_projects\hackathon.acumatica.theta\Bin"
+        run: Copy-Item "hackathon.acumatica.theta/bin/Release/netstandard2.0/hackathon.acumatica.theta.*" -Destination "_projects\hackathon.acumatica.theta\Bin\"
      
       - name: Archive Release
         run: |
