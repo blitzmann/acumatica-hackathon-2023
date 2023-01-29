@@ -33,13 +33,14 @@ jobs:
         run: Copy-Item "hackathon.acumatica.theta/bin/Release/netstandard2.0/hackathon.acumatica.theta.*" -Destination "_projects\hackathon.acumatica.theta\Bin"
      
       - name: Archive Release
-        uses: thedoctor0/zip-release@0.7.1
-        with:
-          type: 'zip'
-          directory: '_projects\hackathon.acumatica.theta'
-          filename: 'hackathon.acumatica.theta.zip'
-          exclusions: '*.git* /*node_modules/* .editorconfig'
-      
+        run: |
+          $compress = @{
+           Path = ".\hackathon.acumatica.theta\*"
+           CompressionLevel = "Fastest"
+           DestinationPath = "hackathon.acumatica.theta.zip"
+          }
+          Compress-Archive @compress
+        
       - name: print files
         run: dir
         
