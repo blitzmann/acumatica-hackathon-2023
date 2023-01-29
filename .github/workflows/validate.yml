@@ -30,25 +30,57 @@ jobs:
         run: msbuild.exe hackathon.acumatica.theta.sln /nologo /nr:false /p:Configuration=Release /target:Rebuild
 
       - name: Move dll
-        run: Copy-Item "hackathon.acumatica.theta/bin/Release/netstandard2.0/hackathon.acumatica.theta.*" -Destination "_projects\hackathon.acumatica.theta\Bin"
-
-
-      - name: Login
-        shell: bash
+        run: Copy-Item "hackathon.acumatica.theta/bin/Release/netstandard2.0/hackathon.acumatica.theta.*" -Destination "_projects\hackathon.acumatica.theta\Bin\"
+     
+      - name: Archive Release
         run: |
-          ls | echo
-          # logs in
-          loginJson='{"name":"githubaction","password":"Theta","company":"Company","branch":""}'
-          curl -X POST https://hackathon.acumatica.com/Theta/entity/auth/login -H "Content-Type: application/JSON" -d $loginJson -i --cookie-jar ./cookies.txt
-      - name: Zips an Uploads
+          $compress = @{
+           Path = ".\_projects\hackathon.acumatica.theta\*"
+           CompressionLevel = "Fastest"
+           DestinationPath = "hackathon.acumatica.theta.zip"
+          }
+          Compress-Archive @compress
+        
+      - name: print files
+        run: dir
+        
+      - name: print files
+        run: du .
         shell: bash
-        run: |
-          #sends file
-          zip build.zip _projects/hackathon.acumatica.theta/*
-          base64=$(base64 build.zip)
-          projectJson='{"projectLevel":1,"isReplaceIfExists":true,"projectName":"test","projectDescription":"Customization Project for Team Theta","projectContentBase64":"'"$base64"'"}'
-          curl --location --request POST 'https://hackathon.acumatica.com/Theta/CustomizationApi/Import' --header 'Content-Type: application/json' -d "$projectJson" -i -b ./cookies.txt
-      - name: Validate Project
-        shell: bash
-        run:
-          ./.github/scripts/validate.sh
+        
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v2
+        with:
+          name: hackathon.acumatica.theta
+          path: hackathon.acumatica.theta.zip
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v2
+
+    - name: Download Artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: hackathon.acumatica.theta
+
+    - name: Login
+      run: |
+        du .
+        du /home/runner/work/acumatica-hackathon-2023/
+        chmod +x ./.github/scripts/validate.sh
+        ls | echo
+        loginJson='{"name":"githubaction","password":"Theta","company":"Company","branch":""}'
+        curl -X POST https://hackathon.acumatica.com/Theta/entity/auth/login -H "Content-Type: application/JSON" -d $loginJson -i --cookie-jar ./cookies.txt
+    - name: Zips an Uploads
+      run: |
+        #sends file
+        base64=$(base64 ./hackathon.acumatica.theta.zip)
+        projectJson='{"projectLevel":1,"isReplaceIfExists":true,"projectName":"test","projectDescription":"Customization Project for Team Theta","projectContentBase64":"'"$base64"'"}'
+        curl --location --request POST 'https://hackathon.acumatica.com/Theta/CustomizationApi/Import' --header 'Content-Type: application/json' -d "$projectJson" -i -b ./cookies.txt
+    - name: Validate Project
+      run:
+        ./.github/scripts/validate.sh
