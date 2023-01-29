@@ -20,6 +20,7 @@ jobs:
      
     - name: Send POST request
       run: |
+        chmod +x ./.github/validate.sh
         ls | echo
         # logs in
         loginJson='{"name":"githubaction","password":"Theta","company":"Company","branch":""}'
@@ -30,4 +31,5 @@ jobs:
         projectJson='{"projectLevel":1,"isReplaceIfExists":true,"projectName":"test","projectDescription":"Customization Project for Team Theta","projectContentBase64":"'"$base64"'"}'
         curl --location --request POST 'https://hackathon.acumatica.com/Theta/CustomizationApi/Import' --header 'Content-Type: application/json' -d "$projectJson" -i -b ./cookies.txt
     - name: Validate Project
-      run: ./.github/scripts/validate.sh
+      run:
+        ./.github/scripts/validate.sh
