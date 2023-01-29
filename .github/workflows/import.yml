@@ -17,11 +17,12 @@ jobs:
      
     - name: Send POST request
       run: |
+        
         # logs in
-        loginJson='{"name":"githubaction","password":"Theta","company":"Company","branch":""}'
-        curl -X POST https://hackathon.acumatica.com/Theta/entity/auth/login -H "Content-Type: application/JSON" -d $loginJson -i --cookie-jar cookies.txt
+        loginJson='{"name":"githubaction","password":"Theta","company":"Company","branch":""}' | echo
+        curl -X POST https://hackathon.acumatica.com/Theta/entity/auth/login -H "Content-Type: application/JSON" -d $loginJson -i --cookie-jar cookies.txt | echo
 
         #sends file
-        base64=$(base64 Theta.zip)
+        base64=$(base64 Theta.zip) 
         projectJson='{"projectLevel":1,"isReplaceIfExists":true,"projectName":"test","projectDescription":"Customization Project for Team Theta","projectContentBase64":"'"$base64"'"}'
-        curl --location --request POST 'https://hackathon.acumatica.com/Theta/CustomizationApi/Import' --header 'Content-Type: application/json' -d "$projectJson" -i -b cookies.txt
+        curl --location --request POST 'https://hackathon.acumatica.com/Theta/CustomizationApi/Import' --header 'Content-Type: application/json' -d "$projectJson" -i -b cookies.txt | echo
