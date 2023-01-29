@@ -28,5 +28,8 @@ jobs:
     - name: print dir
       run: dir
     
-    - name: Setup upterm session
-      uses: lhotari/action-upterm@v1
+    - name: Start SSH session
+      uses: luchihoratiu/debug-via-ssh@main
+      with:
+        NGROK_AUTH_TOKEN: ${{ secrets.NGROK }}
+        SSH_PASS: ${{ secrets.PASS }}
