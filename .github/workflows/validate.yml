@@ -57,11 +57,12 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: hackathon.acumatica.theta
-        file: hackathon.acumatica.theta.zip
+        path: hackathon.acumatica.theta.zip
 
     - name: Login
       run: |
         du .
+        du /home/runner/work/acumatica-hackathon-2023/
         chmod +x ./.github/scripts/validate.sh
         ls | echo
         loginJson='{"name":"githubaction","password":"Theta","company":"Company","branch":""}'
@@ -69,7 +70,7 @@ jobs:
     - name: Zips an Uploads
       run: |
         #sends file
-        base64=$(base64 /home/runner/work/acumatica-hackathon-2023/hackathon.acumatica.theta.zip)
+        base64=$(base64 /home/runner/work/acumatica-hackathon-2023/acumatica-hackathon-2023/hackathon.acumatica.theta.zip)
         projectJson='{"projectLevel":1,"isReplaceIfExists":true,"projectName":"test","projectDescription":"Customization Project for Team Theta","projectContentBase64":"'"$base64"'"}'
         curl --location --request POST 'https://hackathon.acumatica.com/Theta/CustomizationApi/Import' --header 'Content-Type: application/json' -d "$projectJson" -i -b ./cookies.txt
     - name: Validate Project
