@@ -38,7 +38,6 @@ jobs:
           type: 'zip'
           directory: '_projects\hackathon.acumatica.theta'
           filename: 'hackathon.acumatica.theta.zip'
-          recursive: true
           exclusions: '*.git* /*node_modules/* .editorconfig'
       
       - name: Upload artifact for deployment job
@@ -46,6 +45,13 @@ jobs:
         with:
           name: package
           path: hackathon.acumatica.theta.zip
+
+      - name: print files
+        run: dir
+        
+      - name: print files
+        run: du .
+        shell: bash
 
       - name: Login
         shell: bash
