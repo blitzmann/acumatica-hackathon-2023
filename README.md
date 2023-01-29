@@ -1,6 +1,6 @@
 # acumatica-hackathon-2023
 
-Github Action leveraging Acumatica's REST API for publishing customizations.
+Github Action leveraging Acumatica's REST API for publishing customizations that were released for [2022 R2](https://help-2022r2.acumatica.com/(W(1))/Wiki/Show.aspx?pageid=7eddb850-0096-41c3-8ea7-14becf6401ff).
 
 ## REST API
 ### Login
