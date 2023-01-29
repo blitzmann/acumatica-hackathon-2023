@@ -5,8 +5,9 @@ publishProject='{"isMergeWithExistingPackages": false,"isOnlyValidation": false,
 curl --location --request POST 'https://hackathon.acumatica.com/Theta/CustomizationApi/publishBegin' --header 'Content-Type: application/json' -d "$validateProject" -i -b ./cookies.txt
 
 
-        for i in {1..5}; do
+        for i in {1..20}; do
           curl --location --request POST 'https://hackathon.acumatica.com/Theta/CustomizationApi/publishEnd' --header 'Content-Type: application/json' -d "" -i -b ./cookies.txt -o ./response.txt
+          rm ./request.txt
           if [[ $(cat response.txt) == *"isCompleted\":true,\"isFailed\":false"* ]]; then
             curl --location --request POST 'https://hackathon.acumatica.com/Theta/CustomizationApi/publishBegin' --header 'Content-Type: application/json' -d "$publishProject" -i -b ./cookies.txt
             echo "Your Project has been Published"
@@ -15,6 +16,6 @@ curl --location --request POST 'https://hackathon.acumatica.com/Theta/Customizat
             echo "Your Validation Failed"
             break
           else
-            sleep 120
+            sleep 30
           fi
         done
