@@ -42,7 +42,7 @@ jobs:
      
     - name: Login
       run: |
-        chmod +x ./github/validate.sh
+        chmod +x ./.github/scripts/validate.sh
         ls | echo
         # logs in
         loginJson='{"name":"githubaction","password":"Theta","company":"Company","branch":""}'
