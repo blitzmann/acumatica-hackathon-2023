@@ -35,7 +35,7 @@ jobs:
       - name: Archive Release
         run: |
           $compress = @{
-           Path = ".\hackathon.acumatica.theta\*"
+           Path = ".\_projects\hackathon.acumatica.theta\*"
            CompressionLevel = "Fastest"
            DestinationPath = "hackathon.acumatica.theta.zip"
           }
