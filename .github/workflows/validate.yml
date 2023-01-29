@@ -40,18 +40,19 @@ jobs:
           filename: 'hackathon.acumatica.theta.zip'
           exclusions: '*.git* /*node_modules/* .editorconfig'
       
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v2
-        with:
-          name: package
-          path: hackathon.acumatica.theta.zip
-
       - name: print files
         run: dir
         
       - name: print files
         run: du .
         shell: bash
+        
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v2
+        with:
+          name: package
+          path: hackathon.acumatica.theta.zip
+
 
       - name: Login
         shell: bash
