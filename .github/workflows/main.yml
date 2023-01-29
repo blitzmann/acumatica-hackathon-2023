@@ -28,8 +28,5 @@ jobs:
     - name: print dir
       run: dir
     
-    - name: Start SSH session
-      uses: luchihoratiu/debug-via-ssh@main
-      with:
-        NGROK_AUTH_TOKEN: ${{ secrets.NGROK }}
-        SSH_PASS: ${{ secrets.PASS }}
+    - name: print dir
+      run: dir hackathon.acumatica.theta/binRelease/netstandard2.0
