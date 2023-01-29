@@ -29,4 +29,4 @@ jobs:
       run: dir
     
     - name: print dir
-      run: dir hackathon.acumatica.theta/binRelease/netstandard2.0
+      run: dir hackathon.acumatica.theta/bin/Release/netstandard2.0
