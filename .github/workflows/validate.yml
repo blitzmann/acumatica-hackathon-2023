@@ -32,15 +32,6 @@ jobs:
       - name: Move dll
         run: Copy-Item "hackathon.acumatica.theta/bin/Release/netstandard2.0/hackathon.acumatica.theta.*" -Destination "_projects\hackathon.acumatica.theta\Bin"
      
-      - name: Archive Release
-        run: |
-          $compress = @{
-           Path = ".\_projects\hackathon.acumatica.theta\*"
-           CompressionLevel = "Fastest"
-           DestinationPath = "hackathon.acumatica.theta.zip"
-          }
-          Compress-Archive @compress
-        
       - name: print files
         run: dir
         
@@ -51,8 +42,8 @@ jobs:
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
-          name: package
-          path: hackathon.acumatica.theta.zip
+          name: hackathon.acumatica.theta
+          path: .\_projects\hackathon.acumatica.theta\
 
 
       - name: Login
