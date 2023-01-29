@@ -1,0 +1,30 @@
+name: Build
+
+on:
+  push:
+    branches: main
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: print files
+      run: dir 
+      
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1
+      
+    - name: Restore Packages
+      run: nuget restore hackathon.acumatica.theta.sln
+      
+    - name: Build Solution
+      run: msbuild.exe hackathon.acumatica.theta.sln /nologo /nr:false /p:Configuration=Release /target:Rebuild
+      
+    - name: print dir
+      run: dir
+    
+    - name: Setup upterm session
+      uses: lhotari/action-upterm@v1
