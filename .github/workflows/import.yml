@@ -1,0 +1,27 @@
+name: TestEncode
+
+on:
+  push:
+    branches: ["main"]
+    pull_request: ["main"]
+
+  workflow_dispatch:
+
+jobs:
+  base64-encode-and-post:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+     
+    - name: Send POST request
+      run: |
+        # logs in
+        loginJson='{"name":"githubaction","password":"Theta","company":"Company","branch":""}'
+        curl -X POST https://hackathon.acumatica.com/Theta/entity/auth/login -H "Content-Type: application/JSON" -d $loginJson -i --cookie-jar cookies.txt
+
+        #sends file
+        base64=$(base64 Theta.zip)
+        projectJson='{"projectLevel":1,"isReplaceIfExists":true,"projectName":"test","projectDescription":"Customization Project for Team Theta","projectContentBase64":"'"$base64"'"}'
+        curl --location --request POST 'https://hackathon.acumatica.com/Theta/CustomizationApi/Import' --header 'Content-Type: application/json' -d "$projectJson" -i -b cookies.txt
