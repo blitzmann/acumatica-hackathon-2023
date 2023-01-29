@@ -31,7 +31,19 @@ jobs:
 
       - name: Move dll
         run: Copy-Item "hackathon.acumatica.theta/bin/Release/netstandard2.0/hackathon.acumatica.theta.*" -Destination "_projects\hackathon.acumatica.theta\Bin"
-
+      - name: Archive Release
+        uses: thedoctor0/zip-release@0.7.1
+        with:
+          type: 'zip'
+          directory: '_projects\hackathon.acumatica.theta'
+          filename: 'hackathon.acumatica.theta'
+          recursive: true
+          exclusions: '*.git* /*node_modules/* .editorconfig'
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v2
+        with:
+          name: package
+          path: deploy/hackathon.acumatica.theta.zip
 
       - name: Login
         shell: bash
