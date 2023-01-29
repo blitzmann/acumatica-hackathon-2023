@@ -20,7 +20,7 @@ jobs:
      
     - name: Send POST request
       run: |
-        chmod +x ./github/validate.sh
+        chmod +x ./.github/validate.sh
         ls | echo
         # logs in
         loginJson='{"name":"githubaction","password":"Theta","company":"Company","branch":""}'
